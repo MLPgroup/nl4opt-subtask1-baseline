@@ -183,6 +183,8 @@ class NERBaseAnnotator(pl.LightningModule):
 
         if mode == 'predict':
             output['token_tags'] = pred_tags
+            output['pred_results'] = pred_results
+
         return output
 
     def predict_tags(self, batch, device='cuda:0'):

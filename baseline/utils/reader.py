@@ -37,12 +37,12 @@ class CoNLLReader(Dataset):
     def __getitem__(self, item):
         return self.instances[item]
 
-    def read_data(self, data):
+    def read_data(self, data, ner_reader_fn = get_ner_reader):
         dataset_name = data if isinstance(data, str) else 'dataframe'
         logger.info('Reading file {}'.format(dataset_name))
         instance_idx = 0
 
-        for fields, metadata in get_ner_reader(data=data):
+        for fields, metadata in ner_reader_fn(data=data):
             if self._max_instances != -1 and instance_idx > self._max_instances:
                 break
             sentence_str, tokens_sub_rep, token_masks_rep, coded_ner_, gold_spans_, mask = self.parse_line_for_ner(fields=fields)
